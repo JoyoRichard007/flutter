@@ -15,8 +15,23 @@ jobs:
       - run: flutter pub get
       - run: flutter test
 
-  build:
+  deploy-backend:
     needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+      - name: Deploy to Railway
+        run: |
+          cd backend
+          railway up
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+  build:
+    needs: deploy-backend
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
