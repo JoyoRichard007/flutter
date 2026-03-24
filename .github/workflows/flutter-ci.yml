@@ -26,7 +26,7 @@ jobs:
       - name: Deploy to Railway
         run: |
           cd backend
-          railway up
+          railway up --service=Expo
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
 
